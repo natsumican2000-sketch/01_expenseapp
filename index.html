@@ -12,9 +12,9 @@
         .field{margin-bottom:5px;}
         label{display:block; margin-bottom:2px; font-weight:bold; font-size:18px;}
         .saveButton{width:100%; height:46px; font-size:18px; font-weight:bold;}
-        .inputCard{background:white; width:100%; max-width:500px; padding:5px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.1); margin:auto; box-sizing:border-box;}
+        .inputCard{background:white; width:100%; max-width:500px; padding:0px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.1); margin:auto; box-sizing:border-box;}
         .tabBar{display:flex; gap:3px; margin-bottom:10px;}
-        .tabButton{flex:1; font-size:15px; height:44px; border:none; border-radius:10px; background-color:#eeeeee; font-weight:bold;}
+        .tabButton{flex:1; font-size:13px; height:44px; border:none; border-radius:10px; background-color:#eeeeee; font-weight:bold;}
         .activeTab{background-color:#A1887F; color:white;}
         details{margin-top:20px;}
         summary{font-size:28px; font-weight:bold; cursor:pointer; margin-bottom:10px;}
@@ -33,18 +33,18 @@
         #summaryMonthTitle{font-size:28px;font-weight:bold;}
         button:disabled { background-color: #aaaaaa; color: #ffffff; cursor: not-allowed; opacity: 0.7;}
         #expenseDate{width:100%; height:50px; font-size:18px; box-sizing:border-box;}
-        #memo{width:100%; height:44px; box-sizing:border-box;}
+        #memo{width:100%; height:50px !important; min-height:50px !important; box-sizing:border-box; display:block; font-size:18px;}
         @media (max-width: 768px){
             .amountRow{display:flex; gap:10px;}
             .amountRow input{width:auto !important; flex:3;}
             .amountRow select{width:auto !important; flex:1}
-            #expenseDate, #memo{width:100%; box-sizing:border-box; display:block;}
+            #memo{width:100%; box-sizing:border-box; display:block;}
             body{font-size:18px; margin:5px}
-            .inputCard{width:100%;max-width:none;padding:10px;box-sizing:border-box;}
-            input,select{width:100%;height:50px;font-size:18px;}
+            .inputCard{width:100%;max-width:none;padding:0px;box-sizing:border-box;}
+            input,select{width:100%; font-size:18px;}
             button{height:50px;font-size:18px;}
             label{font-size:18px;}
-            .tabButton{font-size:15px; height:50px;}
+            .tabButton{font-size:13px; height:50px;}
         }
 
     </style>
