@@ -592,15 +592,6 @@ const chartCategories =
 const chartAmounts =
     chartCategories.map(category => summary[category]);
 
-const chartCategoryColors =
-    chartCategories.map(category => {
-
-        const categoryIndex =
-            categories.indexOf(category);
-
-        return chartColors[categoryIndex];
-    });
-
 const chartColors = [
 
     "#D7CCC8", // ミルクティー
@@ -626,6 +617,15 @@ const chartColors = [
     "#E6BECC"  // ダスティピンク
 
 ];
+
+const chartCategoryColors =
+    chartCategories.map(category => {
+
+        const categoryIndex =
+            categories.indexOf(category);
+
+        return chartColors[categoryIndex];
+    });
 
 // 前に作ったグラフがあれば削除
 if(categoryChart){
@@ -705,7 +705,7 @@ else{
     );
 }
 
-            const summaryList =
+             const summaryList =
     document.getElementById("summaryList");
 
 summaryList.innerHTML = "";
@@ -757,7 +757,7 @@ categories.forEach((category, index) => {
             </div>
 
         </div>
-    `;
+    `; 
 });         
         }
 
