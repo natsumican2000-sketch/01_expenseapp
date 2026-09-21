@@ -3,18 +3,18 @@
 <head>
     <style>
         body{font-family: Arial, sans-serif; margin:10px}
-        input, select{margin-bottom:10px;} button{width: 100%; padding:12px; margin-top:5px; margin-bottom:10px; box-sizing:border-box;}
+        input, select{margin-bottom:8px;} button{width: 100%; padding:12px; margin-top:5px; margin-bottom:10px; box-sizing:border-box;}
         button{background-color:#A1887F; color: white; border: none; border-radius: 8px; font-size: 18px; min-height:50px;}
         button:hover{background-color: #A1887F;}
         .amountRow{display:flex; gap:10px;}
         .amountRow input{flex:2;}
         .amountRow select{flex:1;}
         .field{margin-bottom:10px;}
-        label{display:block; margin-bottom:3px; font-weight:bold; font-size:18px;}
+        label{display:block; margin-bottom:2px; font-weight:bold; font-size:18px;}
         .saveButton{width:100%; height:55px; font-size:20px; font-weight:bold;}
         .inputCard{background:white; width:100%; max-width:500px; padding:20px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.1); margin:auto; box-sizing:border-box;}
-        .tabBar{display:flex; gap:5px; margin-bottom:10px;}
-        .tabButton{flex:1; font-size:16px; height:50px; border:none; border-radius:10px; background-color:#eeeeee; font-weight:bold;}
+        .tabBar{display:flex; gap:3px; margin-bottom:10px;}
+        .tabButton{flex:1; font-size:14px; height:50px; border:none; border-radius:10px; background-color:#eeeeee; font-weight:bold;}
         .activeTab{background-color:#A1887F; color:white;}
         details{margin-top:20px;}
         summary{font-size:28px; font-weight:bold; cursor:pointer; margin-bottom:10px;}
@@ -32,11 +32,9 @@
         .cancelButton:hover {background-color: #dddddd;}
         #summaryMonthTitle{font-size:32px;font-weight:bold;}
         button:disabled { background-color: #aaaaaa; color: #ffffff; cursor: not-allowed; opacity: 0.7;}
-        input[type="date"],select,input[type="text"]{height:55px !important;}
+        input[type="date"]{height:50px !important; min-height:50px !important;}
         @media (max-width: 768px){
-            .amountRow{display:block !important;}
-            .amountRow input{width:100%; margin-bottom:10px;}
-            .amountRow select{width:100%;}
+            .amountRow{display:flex; gap:10px;}
             body{font-size:18px; margin:10px}
             .inputCard{width:100%;max-width:none;padding:15px;box-sizing:border-box;}
             input,select{width:100%;height:50px;font-size:18px;}
