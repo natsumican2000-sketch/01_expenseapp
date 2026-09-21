@@ -34,6 +34,113 @@
         #expenseDate{width:100%; height:50px; font-size:18px; box-sizing:border-box; border-radius:8px; margin-bottom:5px; appearance:none; -webkit-appearance:none;}
         input, select, button{border-radius:8px;}
         #memo{width:100%; height:50px !important; min-height:50px !important; box-sizing:border-box; display:block; font-size:18px;}
+        .historyMonthTitle {
+    margin: 22px 0 12px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.historyCard {
+    width: 100%;
+    padding: 16px;
+    margin-bottom: 14px;
+    background-color: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+    transition:
+        background-color 0.3s,
+        border-color 0.3s;
+}
+
+.historyTitleRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.historyColorBox {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.historyRemarks {
+    font-size: 21px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.historyMetaRow {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 17px;
+}
+
+.historyCategory {
+    text-align: right;
+    font-weight: bold;
+}
+
+.historyDetails {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.historyDetailLabel {
+    margin-bottom: 3px;
+    color: #666666;
+    font-size: 14px;
+}
+
+.historyDetailValue {
+    font-size: 18px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.historyFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.historyActions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.historyButton {
+    width: auto !important;
+    min-width: 72px;
+    min-height: 36px !important;
+    height: 36px !important;
+    padding: 5px 12px !important;
+    margin: 0 !important;
+    font-size: 15px !important;
+    line-height: 1 !important;
+}
+
+.historyJPY {
+    margin-left: auto;
+    text-align: right;
+    font-size: 24px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.highlight {
+    background-color: #f3eeee;
+    border: 2px solid #c8b6a6;
+}
         @media (max-width: 768px){
             .amountRow{display:flex; gap:10px;}
             .amountRow input{width:auto !important; flex:3;}
@@ -414,106 +521,157 @@ finally{
                 }    
         }
 
-        function buildHistory(){
-            const expenses = JSON.parse(localStorage.getItem("expenseData"))||[];
-            const historyList = document.getElementById("historyList");
-            historyList.innerHTML = "";
-            let currentMonth = "";
-            expenses.forEach((record, index) => {
-                const date = record[0];
-                const month = date.substring(0,7);
-                if(month !== currentMonth){currentMonth = month; historyList.innerHTML +=`<h3>${month}</h3>`;}
-                /* historyList.innerHTML += `<div id="history-${index}" style="border-bottom:1px solid #ddd; padding:8px; display:grid; grid-template-columns:120px 80px 60px 80px 60px 120px 1fr 120px; gap:10px; align-items:center;">
-                    <div>${record[0]}</div>
-                    <div>${record[1]}</div>
-                    <div>${record[2]}</div>
-                    <div>¥${record[3]}</div>
-                    <div>${record[4]}</div>
-                    <div>${record[5]}</div>
-                    <div>${record[6]}</div>
-                    <div>
-                        <button onclick="editExpense(${index})">Edit</button>
-                        <button onclick="deleteExpense(${index})">Delete</button>
-                    </div></div>`; */
-                historyList.innerHTML += `
-
-<div style="
-    background:white;
-    border-radius:16px;
-    padding:15px;
-    margin-bottom:12px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.1);
-">
-
-    <div style="
-        font-size:20px;
-        font-weight:bold;
-        margin-bottom:10px;
-    ">
-        ${record[6]}
-    </div>
-
-    <div style="
-        display:flex;
-        justify-content:space-between;
-        margin-bottom:10px;
-    ">
-        <div>${record[0]}</div>
-        <div>${record[5]}</div>
-    </div>
-
-    <div style="
-        display:flex;
-        justify-content:space-between;
-        margin-bottom:10px;
-    ">
-        <div>
-            Amount<br>
-            <strong>${record[1]}</strong>
-        </div>
-
-        <div>
-            Currency<br>
-            <strong>${record[2]}</strong>
-        </div>
-
-        <div>
-            Rate<br>
-            <strong>${record[4]}</strong>
-        </div>
-    </div>
-
-    <div style="
-        font-size:24px;
-        font-weight:bold;
-        text-align:right;
-        margin-bottom:10px;
-    ">
-        ¥${record[3]}
-    </div>
-
-    <div style="
-        display:flex;
-        gap:10px;
-    ">
-
-        <button
-            onclick="editExpense(${index})">
-            Edit
-        </button>
-
-        <button
-            onclick="deleteExpense(${index})">
-            Delete
-        </button>
-
-    </div>
-
-</div>
-
-`;
-                    });
+        function getCategoryColor(category){
+            const categories = ["Rent or Hotel", "Food", "Houseware", "Transport", "Utility", "Communication", "Clothes", "Cosmetic", "Hobbies", "Entertainment", "Insurance"];
+            const colors = ["#D7CCC8", "#C8B6A6", "#A1887F", "#CB997E", "#D4A373", "#F6D6A8", "#E9EDC9", "#CCD5AE", "#BFD7EA", "#CDB4DB", "#E6BECC"];
+            const categoryIndex = categories.indexOf(category);
+            if(categoryIndex >= 0){return colors[categoryIndex];}return "#D7CCC8";
         }
+
+        function buildHistory(){
+
+    const expenses =
+        JSON.parse(
+            localStorage.getItem("expenseData")
+        ) || [];
+
+    const historyList =
+        document.getElementById("historyList");
+
+    historyList.innerHTML = "";
+
+    let currentMonth = "";
+
+    expenses.forEach((record, index) => {
+
+        const normalizedDate =
+            record[0].replaceAll("/", "-");
+
+        const month =
+            normalizedDate.substring(0, 7);
+
+        const category =
+            record[5];
+
+        const remarks =
+            record[6] || "No remarks";
+
+        const categoryColor =
+            getCategoryColor(category);
+
+        if(month !== currentMonth){
+
+            currentMonth = month;
+
+            historyList.innerHTML += `
+                <div class="historyMonthTitle">
+                    ${month}
+                </div>
+            `;
+        }
+
+        historyList.innerHTML += `
+            <div
+                id="history-${index}"
+                class="historyCard"
+            >
+
+                <div class="historyTitleRow">
+
+                    <span
+                        class="historyColorBox"
+                        style="
+                            background-color:${categoryColor};
+                        "
+                    ></span>
+
+                    <div class="historyRemarks">
+                        ${remarks}
+                    </div>
+
+                </div>
+
+
+                <div class="historyMetaRow">
+
+                    <div>
+                        ${record[0]}
+                    </div>
+
+                    <div class="historyCategory">
+                        ${category}
+                    </div>
+
+                </div>
+
+
+                <div class="historyDetails">
+
+                    <div>
+                        <div class="historyDetailLabel">
+                            Amount
+                        </div>
+
+                        <div class="historyDetailValue">
+                            ${record[1]}
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <div class="historyDetailLabel">
+                            Currency
+                        </div>
+
+                        <div class="historyDetailValue">
+                            ${record[2]}
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <div class="historyDetailLabel">
+                            Rate
+                        </div>
+
+                        <div class="historyDetailValue">
+                            ${record[4]}
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="historyFooter">
+
+                    <div class="historyActions">
+
+                        <button
+                            class="historyButton"
+                            onclick="editExpense(${index})"
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            class="historyButton"
+                            onclick="deleteExpense(${index})"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+
+                    <div class="historyJPY">
+                        ¥${record[3]}
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+    });
+}
 
         function goToHistory(index){
             showHistory();
