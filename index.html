@@ -423,7 +423,7 @@ finally{
                 const date = record[0];
                 const month = date.substring(0,7);
                 if(month !== currentMonth){currentMonth = month; historyList.innerHTML +=`<h3>${month}</h3>`;}
-                historyList.innerHTML += `<div id="history-${index}" style="border-bottom:1px solid #ddd; padding:8px; display:grid; grid-template-columns:120px 80px 60px 80px 60px 120px 1fr 120px; gap:10px; align-items:center;">
+                /* historyList.innerHTML += `<div id="history-${index}" style="border-bottom:1px solid #ddd; padding:8px; display:grid; grid-template-columns:120px 80px 60px 80px 60px 120px 1fr 120px; gap:10px; align-items:center;">
                     <div>${record[0]}</div>
                     <div>${record[1]}</div>
                     <div>${record[2]}</div>
@@ -434,7 +434,84 @@ finally{
                     <div>
                         <button onclick="editExpense(${index})">Edit</button>
                         <button onclick="deleteExpense(${index})">Delete</button>
-                    </div></div>`;
+                    </div></div>`; */
+                historyList.innerHTML += `
+
+<div style="
+    background:white;
+    border-radius:16px;
+    padding:15px;
+    margin-bottom:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+">
+
+    <div style="
+        font-size:20px;
+        font-weight:bold;
+        margin-bottom:10px;
+    ">
+        ${record[6]}
+    </div>
+
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        margin-bottom:10px;
+    ">
+        <div>${record[0]}</div>
+        <div>${record[5]}</div>
+    </div>
+
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        margin-bottom:10px;
+    ">
+        <div>
+            Amount<br>
+            <strong>${record[1]}</strong>
+        </div>
+
+        <div>
+            Currency<br>
+            <strong>${record[2]}</strong>
+        </div>
+
+        <div>
+            Rate<br>
+            <strong>${record[4]}</strong>
+        </div>
+    </div>
+
+    <div style="
+        font-size:24px;
+        font-weight:bold;
+        text-align:right;
+        margin-bottom:10px;
+    ">
+        ¥${record[3]}
+    </div>
+
+    <div style="
+        display:flex;
+        gap:10px;
+    ">
+
+        <button
+            onclick="editExpense(${index})">
+            Edit
+        </button>
+
+        <button
+            onclick="deleteExpense(${index})">
+            Delete
+        </button>
+
+    </div>
+
+</div>
+
+`;
                     });
         }
 
