@@ -579,7 +579,7 @@ function exportExcel(){
             });
             const categories = ["Rent or Hotel", "Food", "Houseware", "Transport", "Utility", "Communication", "Clothes", "Cosmetic", "Hobbies", "Entertainment", "Insurance"];
             const summary = {};
-            categories.forEach((category, index) => {summary[category]=0;});
+            categories.forEach(category => {summary[category]=0;});
             monthlyExpenses.forEach(record => {const category = record[5]; const amount = Number(record[3].replace(/,/g,""));
             if(summary[category] === undefined){summary[category]=0;}
             summary[category] += amount;});
@@ -591,6 +591,15 @@ const chartCategories =
 
 const chartAmounts =
     chartCategories.map(category => summary[category]);
+
+const chartCategoryColors =
+    chartCategories.map(category => {
+
+        const categoryIndex =
+            categories.indexOf(category);
+
+        return chartColors[categoryIndex];
+    });
 
 const chartColors = [
 
@@ -638,7 +647,7 @@ if(chartCategories.length > 0){
 
             datasets: [{
                 data: chartAmounts,
-                backgroundColor: chartColors,
+                backgroundColor: chartCategoryColors,
                 borderColor: "#ffffff",
                 borderWidth: 2
             }]
@@ -696,17 +705,60 @@ else{
     );
 }
 
-            const summaryList = document.getElementById("summaryList");
-            summaryList.innerHTML += `
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 5px; border-bottom:1px solid #dddddd;">
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <div style="width:14px; height:14px; background:${chartColors[index]}; border-radius:3px; flex-shrink:0;"></div>
-                    <div>${category}</div>
-                </div>
-                <div style="text-align:right; font-weight:bold;">
-                    ¥${summary[category].toLocaleString()}(${percentage.toFixed(1)}%)
-                </div>
-            </div>`;            
+            const summaryList =
+    document.getElementById("summaryList");
+
+summaryList.innerHTML = "";
+
+categories.forEach((category, index) => {
+
+    const percentage =
+        totalAmount === 0
+            ? 0
+            : summary[category] / totalAmount * 100;
+
+    summaryList.innerHTML += `
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:12px 5px;
+            border-bottom:1px solid #dddddd;
+            gap:10px;
+        ">
+
+            <div style="
+                display:flex;
+                align-items:center;
+                gap:10px;
+                min-width:0;
+            ">
+
+                <span style="
+                    width:14px;
+                    height:14px;
+                    background-color:${chartColors[index]};
+                    border-radius:3px;
+                    flex-shrink:0;
+                    display:inline-block;
+                "></span>
+
+                <span>${category}</span>
+
+            </div>
+
+            <div style="
+                text-align:right;
+                font-weight:bold;
+                white-space:nowrap;
+            ">
+                ¥${summary[category].toLocaleString()}
+                (${percentage.toFixed(1)}%)
+            </div>
+
+        </div>
+    `;
+});         
         }
 
         
