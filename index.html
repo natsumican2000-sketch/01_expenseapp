@@ -221,7 +221,7 @@
 
     <div id="calendarPage" style="display:none;">
         <div class="calendarHeader">
-        <button type="button" Onclick="changeMonth(-1)">◀</button>
+        <button type="button" onclick="changeMonth(-1)">◀</button>
         <h2 id="calendarMonthTitle"></h2>
         <button type="button" onclick="changeMonth(1)">▶</button>
         </div>
@@ -465,7 +465,7 @@ finally{
                 const jpy = Number(record[3].replace(/,/g, ""));
                 if(!dailyTotals[day]){dailyTotals[day]=0;}
                 dailyTotals[day] += jpy;});
-            console.log(dailyTotals);
+             console.log(dailyTotals);
             const table = document.getElementById("calendarTable");
             table.innerHTML = "";
             table.innerHTML += `
@@ -482,7 +482,7 @@ finally{
                 const monthTotal = Object.values(dailyTotals).reduce((a,b)=>a+b,0);
                 console.log("calendarTotal", monthTotal);
                 document.getElementById("calendarTotal").textContent = `${monthNames[displayMonth]} ${displayYear} Total ¥ ${monthTotal.toLocaleString()}`;
-                list.innerHTML ="";
+                /* list.innerHTML ="";
                 monthlyExpenses.forEach(record =>{
                     const originalIndex = expenses.indexOf(record);
                     list.innerHTML += `
@@ -493,7 +493,7 @@ finally{
                         <div>${record[6]}</div>
                         <div style="color:green; font-weight:bold;">
                             ¥${record[3]}</div></div>`;
-                });
+                });  */
                 console.log(monthTotal);
                 //document.getElementById("calendarTotal").tectContent = "TEST";
                 const firstDay = new Date(displayYear, displayMonth,1).getDay();
@@ -545,7 +545,7 @@ finally{
 
     const list =
         document.getElementById(
-            "calendarExpenseList"
+            "monthlyExpenseList"
         );
 
     list.innerHTML = "";
