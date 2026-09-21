@@ -35,139 +35,69 @@
         input, select, button{border-radius:8px;}
         #memo{width:100%; height:50px !important; min-height:50px !important; box-sizing:border-box; display:block; font-size:18px;}
         .exportButton{width:100%; height:30px !important; min-height:30px !important; font-size:16px !important; margin-bottom:20px;}
-        .navButton{
+        .navButton {
+    flex: 1;
+    min-width: 0;
+    min-height: 64px !important;
+    height: 64px !important;
+    margin: 4px 2px !important;
+    padding: 5px 2px !important;
 
-    flex:1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
 
-    background:white;
+    background-color: #ffffff;
+    color: #A1887F;
 
-    border:none;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:4px;
-
-    margin:4px;
-
-    padding:6px;
-
-    border-radius:18px;
-
-    color:#999999;
-
-    min-height:auto !important;
-
+    border: none;
+    border-radius: 16px;
 }
 
-.navIcon{
-
-    width:28px;
-
-    height:28px;
-
-    object-fit:contain;
-
+.navIcon {
+    width: 28px !important;
+    height: 28px !important;
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
-.navButton span{
-
-    font-size:11px;
-
-    font-weight:bold;
-
+.navButton span {
+    color: #A1887F;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.1;
 }
 
-.activeNav{
-
-    background:#A1887F;
-
-    color:white;
-
+/* 通常時はブラウンアイコンを表示 */
+.navIconBrown {
+    display: block;
 }
 
-.activeNav .navIcon{
-
-    filter:
-        brightness(0)
-        invert(1);
-
-}
-        .bottomNav{
-
-    position:fixed;
-
-    bottom:0;
-
-    left:0;
-
-    width:100%;
-
-    height:70px;
-
-    display:flex;
-
-    background:white;
-
-    border-top:1px solid #dddddd;
-
-    box-shadow:0 -2px 10px rgba(0,0,0,0.1);
-
-    z-index:999;
-
+.navIconWhite {
+    display: none;
 }
 
-.navButton{
-
-    flex:1;
-
-    background:white;
-
-    border:none;
-
-    color:#888888;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    font-size:12px;
-
-    margin:0;
-
-    padding:0;
-
+/* 選択中のボタン */
+.navButton.activeNav {
+    background-color: #A1887F;
 }
 
-.navButton div:first-child{
-
-    font-size:20px;
-
-    margin-bottom:2px;
-
+/* 選択中は文字を白にする */
+.navButton.activeNav span {
+    color: #ffffff !important;
 }
 
-.activeNav{
-
-    color:#A1887F;
-
-    font-weight:bold;
-
+/* 選択中はブラウン画像を隠して白画像を表示 */
+.navButton.activeNav .navIconBrown {
+    display: none;
 }
-        .historyMonthTitle {
-    margin: 22px 0 12px;
-    font-size: 22px;
-    font-weight: bold;
+
+.navButton.activeNav .navIconWhite {
+    display: block;
 }
+
 
 .historyCard {
     width: 100%;
@@ -535,7 +465,9 @@ finally{
             document.getElementById("inputTab").classList.add("activeTab");
             document.getElementById("calendarTab").classList.remove("activeTab");
             document.getElementById("summaryTab").classList.remove("activeTab");
-            document.getElementById("historyTab").classList.remove("activeTab");}
+            document.getElementById("historyTab").classList.remove("activeTab");
+        
+            setActiveNav("inputNav");}
         
         function showCalendar(){
             document.getElementById("inputPage").style.display="none";
@@ -1246,6 +1178,18 @@ categories.forEach((category, index) => {
 });         
         }
 
+        function setActiveNav(navId){
+
+    document
+        .querySelectorAll(".navButton")
+        .forEach(button => {
+            button.classList.remove("activeNav");
+        });
+
+    document
+        .getElementById(navId)
+        .classList.add("activeNav");
+}
         
             //const expenses = JSON.parse(localStorage.getItem("expenseData"))||[];
             //const categories = ["Rent or Hotel", "Food", "Houseware", "Transport", "Utility", "Communication", "Clothes", "Cosmetic", "Hobbies", "Entertainment", "Insurance"];
@@ -1270,7 +1214,9 @@ categories.forEach((category, index) => {
 <div class="bottomNav">
 
     <button id="inputNav" class="navButton activeNav" onclick="showInput()">
-    <img src="icon-input-gray.svg" class="navIcon">Input</span>
+        <img class="navIcon navIconBrown" src="icon-input-brown.svg" alt="">
+        <img class="navIcon navIconWhite" src="icon-input-white.svg" alt="">
+        <span>Input</span>
     </button>
 
     <button class="navButton"
