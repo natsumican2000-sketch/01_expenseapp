@@ -519,7 +519,8 @@ finally{
                             else{html += "<td></td>";} cellPosition++;}
                             html +="</tr>";
                             table.innerHTML += html;
-                }    
+                }
+                buildCalendarExpenseList();    
         }
 
         function getCategoryColor(category){
@@ -528,6 +529,124 @@ finally{
             const categoryIndex = categories.indexOf(category);
             if(categoryIndex >= 0){return colors[categoryIndex];}return "#D7CCC8";
         }
+
+        function buildCalendarExpenseList(){
+
+    const expenses =
+        JSON.parse(
+            localStorage.getItem("expenseData")
+        ) || [];
+
+    const displayYear =
+        currentCalendarDate.getFullYear();
+
+    const displayMonth =
+        currentCalendarDate.getMonth();
+
+    const list =
+        document.getElementById(
+            "calendarExpenseList"
+        );
+
+    list.innerHTML = "";
+
+    expenses.forEach((record, index) => {
+
+        const normalizedDate =
+            record[0].replaceAll("/", "-");
+
+        const recordYear =
+            Number(
+                normalizedDate.substring(0,4)
+            );
+
+        const recordMonth =
+            Number(
+                normalizedDate.substring(5,7)
+            ) - 1;
+
+        if(
+            recordYear !== displayYear ||
+            recordMonth !== displayMonth
+        ){
+            return;
+        }
+
+        const color =
+            getCategoryColor(record[5]);
+
+        list.innerHTML += `
+
+            <div
+                onclick="
+                    showHistory();
+                    setTimeout(()=>{
+                        document
+                        .getElementById(
+                            'history-${index}'
+                        )
+                        ?.scrollIntoView({
+                            behavior:'smooth',
+                            block:'center'
+                        });
+                    },100);
+                "
+                style="
+                    background:white;
+                    border-radius:14px;
+                    padding:12px;
+                    margin-bottom:10px;
+                    box-shadow:
+                        0 2px 8px
+                        rgba(0,0,0,0.1);
+                    cursor:pointer;
+                "
+            >
+
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    gap:10px;
+                    margin-bottom:8px;
+                ">
+
+                    <span style="
+                        width:14px;
+                        height:14px;
+                        border-radius:3px;
+                        background:${color};
+                        display:inline-block;
+                    "></span>
+
+                    <strong>
+                        ${record[6] || "No remarks"}
+                    </strong>
+
+                </div>
+
+                <div style="
+                    display:flex;
+                    justify-content:
+                        space-between;
+                ">
+
+                    <div>
+                        ${record[0]}
+                    </div>
+
+                    <div style="
+                        font-weight:bold;
+                    ">
+                        ¥${record[3]}
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+    });
+}
 
         function buildHistory(){
 
