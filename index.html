@@ -35,71 +35,7 @@
         input, select, button{border-radius:8px;}
         #memo{width:100%; height:50px !important; min-height:50px !important; box-sizing:border-box; display:block; font-size:18px;}
         .exportButton{width:100%; height:30px !important; min-height:30px !important; font-size:16px !important; margin-bottom:20px;}
-        .navButton {
-    flex: 1;
-    min-width: 0;
-    min-height: 64px !important;
-    height: 64px !important;
-    margin: 4px 2px !important;
-    padding: 5px 2px !important;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 3px;
-
-    background-color: #ffffff;
-    color: #A1887F;
-
-    border: none;
-    border-radius: 16px;
-}
-
-.navIcon {
-    width: 28px !important;
-    height: 28px !important;
-    object-fit: contain;
-    flex-shrink: 0;
-}
-
-.navButton span {
-    color: #A1887F;
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 1.1;
-}
-
-/* 通常時はブラウンアイコンを表示 */
-.navIconBrown {
-    display: block;
-}
-
-.navIconWhite {
-    display: none;
-}
-
-/* 選択中のボタン */
-.navButton.activeNav {
-    background-color: #A1887F;
-}
-
-/* 選択中は文字を白にする */
-.navButton.activeNav span {
-    color: #ffffff !important;
-}
-
-/* 選択中はブラウン画像を隠して白画像を表示 */
-.navButton.activeNav .navIconBrown {
-    display: none;
-}
-
-.navButton.activeNav .navIconWhite {
-    display: block;
-}
-
-
-.historyCard {
+        .historyCard {
     width: 100%;
     padding: 16px;
     margin-bottom: 14px;
@@ -215,6 +151,95 @@
             #expenseDate{display:block;}
             #calendarTable th{height:32px; font-size:16px; padding:2px;}
         }
+        .bottomNav {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 76px;
+    padding: 4px 6px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 4px;
+
+    background-color: #ffffff;
+    border-top: 1px solid #dddddd;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+
+    box-sizing: border-box;
+    z-index: 999;
+}
+
+.bottomNav .navButton {
+    flex: 1 1 0 !important;
+    width: auto !important;
+    min-width: 0 !important;
+
+    height: 68px !important;
+    min-height: 68px !important;
+
+    margin: 0 !important;
+    padding: 5px 2px !important;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+
+    background-color: #ffffff;
+    color: #A1887F;
+
+    border: none;
+    border-radius: 16px;
+
+    box-sizing: border-box;
+}
+
+.bottomNav .navIcon {
+    width: 28px !important;
+    height: 28px !important;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.bottomNav .navButton span {
+    color: #A1887F;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* 通常時はブラウン画像 */
+.bottomNav .navIconBrown {
+    display: block;
+}
+
+.bottomNav .navIconWhite {
+    display: none;
+}
+
+/* 選択中 */
+.bottomNav .navButton.activeNav {
+    background-color: #A1887F;
+    color: #ffffff;
+}
+
+.bottomNav .navButton.activeNav span {
+    color: #ffffff !important;
+}
+
+.bottomNav .navButton.activeNav .navIconBrown {
+    display: none;
+}
+
+.bottomNav .navButton.activeNav .navIconWhite {
+    display: block;
+}
 
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
