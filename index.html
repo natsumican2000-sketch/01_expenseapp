@@ -579,7 +579,7 @@ function exportExcel(){
             });
             const categories = ["Rent or Hotel", "Food", "Houseware", "Transport", "Utility", "Communication", "Clothes", "Cosmetic", "Hobbies", "Entertainment", "Insurance"];
             const summary = {};
-            categories.forEach(category => {summary[category]=0;});
+            categories.forEach((category, index) => {summary[category]=0;});
             monthlyExpenses.forEach(record => {const category = record[5]; const amount = Number(record[3].replace(/,/g,""));
             if(summary[category] === undefined){summary[category]=0;}
             summary[category] += amount;});
@@ -698,10 +698,10 @@ else{
 
             const summaryList = document.getElementById("summaryList");
             summaryList.innerHTML += `
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 5px; border-bottom:1px solid #dddddd; gap:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 5px; border-bottom:1px solid #dddddd;">
                 <div style="display:flex; align-items:center; gap:10px;">
-                    <span style="width:16px; height:16px; background:${chartColors[categories.indexOf(category)]}; border-radius:4px; display:inline-block;"></span>
-                    <span>${category}</span>
+                    <div style="width:14px; height:14px; background:${chartColors[index]}; border-radius:3px; flex-shrink:0;"></div>
+                    <div>${category}</div>
                 </div>
                 <div style="text-align:right; font-weight:bold;">
                     ¥${summary[category].toLocaleString()}(${percentage.toFixed(1)}%)
