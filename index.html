@@ -650,7 +650,7 @@ if(chartCategories.length > 0){
 
             plugins: {
                 legend: {
-                    position: "bottom"
+                    display:false
                 },
 
                 tooltip: {
@@ -697,13 +697,16 @@ else{
 }
 
             const summaryList = document.getElementById("summaryList");
-            summaryList.innerHTML = "";
-            categories.forEach(category => {const percentage = totalAmount === 0 ? 0 : summary[category] / totalAmount * 100;
-                summaryList.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; padding:12px 5px; border-bottom:1px solid #dddddd; gap:10px;">
-                    <div>${category}</div>
-                    <div style="text-align:right; font-weight:bold;">
-                        ¥${summary[category].toLocaleString()}(${percentage.toFixed(1)}%)</div></div>`;
-            });
+            summaryList.innerHTML += `
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 5px; border-bottom:1px solid #dddddd; gap:10px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="width:16px; height:16px; background:${chartColors[categories.indexOf(category)]}; border-radius:4px; display:inline-block;"></span>
+                    <span>${category}</span>
+                </div>
+                <div style="text-align:right; font-weight:bold;">
+                    ¥${summary[category].toLocaleString()}(${percentage.toFixed(1)}%)
+                </div>
+            </div>`;            
         }
 
         
