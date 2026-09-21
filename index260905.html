@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Enter</h1>
+    <input id="expenseDate" type="date">
+    <input id="amount" type="number" placeholder="Enter the amount">
+    <select id="currency">
+        <option>JPY</option>
+        <option>USD</option>
+        <option>KRW</option>
+        <option>KHR</option>
+        <option>DJF</option>
+    </select>
+    <select id="category" >
+        <option>Rent or Hotel</option>
+        <option>Food</option>
+        <option>Houseware</option>
+        <option>Transport</option>
+        <option>Utility</option>
+        <option>Communication</option>
+        <option>Clothes</option>
+        <option>Cosmetic</option>
+        <option>Hobbies</option>
+        <option>Entertainment</option>
+        <option>Insurance</option>
+    </select>
+    <input id="memo" placeholder="Remarks" onkeydown="checkEnter(event)">
+    <button onclick="saveExpense()">
+        保存
+    </button>
+
+    <h2>History</h2>
+    <table border="1" id="expenseTable" style="border-collapse: collapse; width: 800px;">
+        <tr style="background-color:#dddddd">
+            <th width="150">Date</th>
+            <th width="100">Amount</th>
+            <th width="80">Currency</th>
+            <th width="100">JPY Amount</th>
+            <th width="80">Rate</th>
+            <th width="100">Category</th>
+            <th width="150">Remarks</th>
+            <th width="70">Delete</th>
+        </tr>
+    </table>
+    <br>
+    <h3 id="totalJPY">Total JPY : 0</h3>
+     <script>
+
+        //window.onload = loadFromLocalStorage;
+        window.onload = async function(){console.log("onload"); loadFromLocalStorage(); document.getElementById("expenseDate").value = new Date().toISOString().split("T")[0];};
+        async function saveExpense(){
+            //const now = new Date();
+            //const dateText = now.getFullYear() + "/" + String(now.getMonth() + 1).padStart(2, "0") + "/" + String(now.getDate()).padStart(2, "0") + " " + String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0");
+            //const selectedDate = document.getElementById("expenseDate").value;
+            //let dateText = selectedDate;
+            //if(dateText === ""){const now = new Date(); dateText = now.getFullYear() + "/" + String(now.getMonth() + 1).padStart(2, "0") + "/" + String(now.getDate()).padStart(2, "0");}
+            const selectedDate = document.getElementById("expenseDate").value;
+            let dateText = selectedDate;
+            if(dateText === ""){const now = new Date(); dateText = now.getFullYear() + "/" + String(now.getMonth() + 1).padStart(2, "0") + "/" + String(now.getDate()).padStart(2, "0");}
+            const amount = document.getElementById("amount").value;
+            const currency = document.getElementById("currency").value;
+            const category = document.getElementById("category").value;
+            const memo = document.getElementById("memo").value;
+            //let rate = 1;
+            //if (currency === "USD"){rate = 160;}
+            //else if (currency === "KRW"){rate = 0.11;}
+            //else if (currency === "KHR"){rate = 0.036;}
+            //else if (currency === "DJF"){rate = 0.84;}
+            const response = await fetch("https://open.er-api.com/v6/latest/JPY");
+            const data = await response.json();       
+            console.log(data);
+            console.log(data.rates.USD);
+            console.log(data.rates.DJF);
+            console.log(data.rates.KRW);
+            let rate = 1;
+            if (currency !== "JPY"){rate = (1 / data.rates[currency]).toFixed(3);}
+            const jpyAmount = Math.round(Number(amount) * rate);
+            const formattedJPY = jpyAmount.toLocaleString();
+            alert(amount + "" + currency + " has been saved.");
+            //const list = document.getElementById("expenseList");
+            //const item = document.createElement("li");
+            const formattedAmount = Number(amount).toLocaleString();
+            //item.textContent = `${formattedAmount} ${currency} | ${category} | ${memo}`;
+            //list.appendChild(item);
+            const table = document.getElementById("expenseTable");
+            const row = document.createElement("tr");
+            row.innerHTML = 
+                `<td style="text-align:center;">${dateText}</td>
+                <td style="text-align:right;">${formattedAmount}</td>
+                <td style="text-align:center;">${currency}</td>
+                <td style="text-align:right;">${formattedJPY}</td>
+                <td style="text-align:center;">${rate}</td>
+                <td style="text-align:center;">${category}</td>
+                <td style="text-align:left;">${memo}</td>
+                <td style="text-align:center;"><button onclick="deleteRow(this)">Delete</button></td>`;
+            table.appendChild(row);
+            saveToLocalStorage();
+            updateTotal();
+            document.getElementById("amount").value ="";
+            document.getElementById("memo").value = "";}
+        function checkEnter(event){if(event.key ==="Enter"){saveExpense();}}
+        function deleteRow(button){
+            const row = button.parentElement.parentElement;
+            row.remove();
+            saveToLocalStorage();
+            updateTotal();
+        }
+        function saveToLocalStorage(){
+            const table = document.getElementById("expenseTable");
+            const rows = table.querySelectorAll("tr");
+            let data = [];
+            for(let i = 1; i < rows.length; i++){
+                const cells = rows[i].querySelectorAll("td");
+                data.push([
+                    cells[0].textContent,
+                    cells[1].textContent,
+                    cells[2].textContent,
+                    cells[3].textContent,
+                    cells[4].textContent,
+                    cells[5].textContent,
+                    cells[6].textContent,
+                ]);
+            }
+            localStorage.setItem("expenseData", JSON.stringify(data));
+        }
+        function loadFromLocalStorage(){
+            const data = JSON.parse(localStorage.getItem("expenseData"))||[];
+            const table = document.getElementById("expenseTable");
+            data.forEach(record => {
+                const row = document.createElement("tr");
+                row.innerHTML =
+                    `<td style="text-align:center;">${record[0]}</td>
+                    <td style="text-align:right;">${record[1]}</td>
+                    <td style="text-align:center;">${record[2]}</td>
+                    <td style="text-align:right;">${record[3]}</td>
+                    <td style="text-align:center;">${record[4]}</td>
+                    <td style="text-align:center;">${record[5]}</td>
+                    <td style="text-align:left;">${record[6]}</td>
+                    <td style="text-align:center;"><button onclick="deleteRow(this)">Delete</button></td>`;
+                table.appendChild(row)
+            });
+            updateTotal();
+        }
+        function updateTotal(){
+            const table = document.getElementById("expenseTable");
+            const rows = table.querySelectorAll("tr");
+            let total = 0;
+            for(let i = 1; i < rows.length; i++){
+                const cells = rows[i].querySelectorAll("td");
+                const jpy = Number(cells[3].textContent.replace(/,/g,""));
+                total += jpy;}
+            document.getElementById("totalJPY").textContent="Total JPY : " + total.toLocaleString();
+        }
+    </script>
+
+</body>
+</html>
