@@ -2,17 +2,17 @@
 <html>
 <head>
     <style>
-        body{font-family: Arial, sans-serif; margin:5px;}
+        body{font-family: Arial, sans-serif; margin:0px;}
         input, select{margin-bottom:8px;} button{width: 100%; padding:12px; margin-top:5px; margin-bottom:10px; box-sizing:border-box;}
         button{background-color:#A1887F; color: white; border: none; border-radius: 8px; font-size: 18px; min-height:50px;}
         button:hover{background-color: #A1887F;}
         .amountRow{display:flex; gap:10px;}
         .amountRow input,
-        .amountRow select{height:50px !important; box-sizing:border-box;}
-        .field{margin-bottom:10px;}
+        .amountRow select{height:50px !important; min-height:50px !important; box-sizing:border-box;}
+        .field{margin-bottom:5px;}
         label{display:block; margin-bottom:2px; font-weight:bold; font-size:18px;}
         .saveButton{width:100%; height:46px; font-size:18px; font-weight:bold;}
-        .inputCard{background:white; width:100%; max-width:500px; padding:8px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.1); margin:auto; box-sizing:border-box;}
+        .inputCard{background:white; width:100%; max-width:500px; padding:5px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.1); margin:auto; box-sizing:border-box;}
         .tabBar{display:flex; gap:3px; margin-bottom:10px;}
         .tabButton{flex:1; font-size:18px; height:44px; border:none; border-radius:10px; background-color:#eeeeee; font-weight:bold;}
         .activeTab{background-color:#A1887F; color:white;}
@@ -32,13 +32,13 @@
         .cancelButton:hover {background-color: #dddddd;}
         #summaryMonthTitle{font-size:28px;font-weight:bold;}
         button:disabled { background-color: #aaaaaa; color: #ffffff; cursor: not-allowed; opacity: 0.7;}
-        input[type="date"]{height:50px !important; min-height:50px !important;}
-        #expenseDate{height:44px !important; width:100%; box-sizing:border-box; display:block; max-width:100%; min-height:44px !important; padding:6px; font-size:18px; border-radius:8px;}
+        #expenseDate{width:100%; height:50px; font-size:18px; box-sizing:border-box;}
         #memo{width:100%; height:44px; box-sizing:border-box;}
         @media (max-width: 768px){
             .amountRow{display:flex; gap:10px;}
             .amountRow input{width:auto !important; flex:3;}
             .amountRow select{width:auto !important; flex:1}
+            #expenseDate, #memo{width:100%; box-sizing:border-box; display:block;}
             body{font-size:18px; margin:5px}
             .inputCard{width:100%;max-width:none;padding:10px;box-sizing:border-box;}
             input,select{width:100%;height:50px;font-size:18px;}
@@ -52,7 +52,7 @@
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon512.png">
-    <meta name="viewport" content="windth=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     
