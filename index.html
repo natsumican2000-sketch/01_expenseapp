@@ -486,11 +486,13 @@ finally{
             document.getElementById("calendarPage").style.display="none";
             document.getElementById("summaryPage").style.display="none";
             document.getElementById("historyPage").style.display="none";
+            document.getElementById("settingPage").style.display="none";
         
             document.getElementById("inputTab").classList.add("activeTab");
             document.getElementById("calendarTab").classList.remove("activeTab");
             document.getElementById("summaryTab").classList.remove("activeTab");
             document.getElementById("historyTab").classList.remove("activeTab");
+            document.getElementById("settingTab").classList.remove("activeTab");
         
             setActiveNav("inputNav");}
         
@@ -499,34 +501,62 @@ finally{
             document.getElementById("calendarPage").style.display="block";
             document.getElementById("summaryPage").style.display="none";
             document.getElementById("historyPage").style.display="none";
+            document.getElementById("settingPage").style.display="none";
         
             document.getElementById("inputTab").classList.remove("activeTab");
             document.getElementById("calendarTab").classList.add("activeTab");
             document.getElementById("summaryTab").classList.remove("activeTab");
-            document.getElementById("historyTab").classList.remove("activeTab");}
+            document.getElementById("historyTab").classList.remove("activeTab");
+            document.getElementById("settingTab").classList.remove("activeTab");
+        
+            setActiveNav("calendarNav");}
 
         function showSummary(){
             document.getElementById("inputPage").style.display="none";
             document.getElementById("calendarPage").style.display="none";
             document.getElementById("summaryPage").style.display="block";
             document.getElementById("historyPage").style.display="none";
+            document.getElementById("settingPage").style.display="none";
                 
             document.getElementById("inputTab").classList.remove("activeTab");
             document.getElementById("calendarTab").classList.remove("activeTab");
             document.getElementById("summaryTab").classList.add("activeTab");
             document.getElementById("historyTab").classList.remove("activeTab");
-            buildSummary();}
+            document.getElementById("settingTab").classList.remove("activeTab");
+            buildSummary();
+        
+            setActiveNav("summaryNav");}
 
         function showHistory(){
             document.getElementById("inputPage").style.display="none";
             document.getElementById("calendarPage").style.display="none";
             document.getElementById("summaryPage").style.display="none";
             document.getElementById("historyPage").style.display="block";
+            document.getElementById("settingPage").style.display="none";
                 
             document.getElementById("inputTab").classList.remove("activeTab");
             document.getElementById("calendarTab").classList.remove("activeTab");
             document.getElementById("summaryTab").classList.remove("activeTab");
             document.getElementById("historyTab").classList.add("activeTab");
+            document.getElementById("settingTab").classList.remove("activeTab");
+
+            setActiveNav("historyNav");
+        }
+
+        function showSetting(){
+            document.getElementById("inputPage").style.display="none";
+            document.getElementById("calendarPage").style.display="none";
+            document.getElementById("summaryPage").style.display="none";
+            document.getElementById("historyPage").style.display="none";
+            document.getElementById("settingPage").style.display="block";
+                
+            document.getElementById("inputTab").classList.remove("activeTab");
+            document.getElementById("calendarTab").classList.remove("activeTab");
+            document.getElementById("summaryTab").classList.remove("activeTab");
+            document.getElementById("historyTab").classList.remove("activeTab");
+            document.getElementById("settingTab").classList.add("activeTab");
+
+            setActiveNav("historyNav");
         }
 
         function changeMonth(change){currentCalendarDate.setMonth(currentCalendarDate.getMonth()+change); buildCalendar(); buildSummary();}
