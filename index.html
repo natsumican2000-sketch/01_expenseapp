@@ -241,6 +241,125 @@
     display: block;
 }
 
+#settingsPage {
+    padding: 10px 10px 90px;
+    box-sizing: border-box;
+}
+
+#settingsPage h2 {
+    margin: 5px 0 18px;
+    font-size: 28px;
+}
+
+.settingsCard {
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 16px;
+
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.10);
+
+    box-sizing: border-box;
+}
+
+.settingsCard h3 {
+    margin: 0 0 14px;
+    font-size: 20px;
+}
+
+.settingsCheckboxList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.settingsCheckboxList label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin: 0;
+    padding: 10px;
+
+    background-color: #f7f3f1;
+    border-radius: 10px;
+
+    font-size: 17px;
+    font-weight: normal;
+}
+
+.settingsCheckboxList input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+}
+
+.categorySettingRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    padding: 10px 0;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.categorySettingName {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.categorySettingColor {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.categoryDeleteButton {
+    width: auto !important;
+    min-width: 68px;
+    min-height: 36px !important;
+    height: 36px !important;
+
+    margin: 0 !important;
+    padding: 5px 10px !important;
+
+    background-color: #d7ccc8;
+    color: #5d4037;
+
+    font-size: 14px !important;
+}
+
+.addCategoryRow {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.addCategoryRow input {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+}
+
+.smallSettingsButton {
+    width: auto !important;
+    min-width: 76px;
+    margin: 0 !important;
+}
+
+.settingsSaveButton {
+    margin-bottom: 10px;
+}
+
+.settingsExportButton {
+    background-color: #d7ccc8;
+    color: #5d4037;
+}
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
@@ -329,14 +448,144 @@
     <table id="expenseTable" style="display:none;"></table>
     <div id="historyList"></div>
     </div>
+
+    <div id="settingsPage" style="display:none;">
+    <h2>Settings</h2>
+    <div class="settingsCard">
+        <label for="baseCurrency">
+            Base Currency
+        </label>
+        <select id="baseCurrency">
+            <option value="JPY">JPY</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="KRW">KRW</option>
+            <option value="KHR">KHR</option>
+            <option value="DJF">DJF</option>
+        </select>
+    </div>
+
+
+    <div class="settingsCard">
+        <h3>Currencies Used</h3>
+        <div id="currencySettings" class="settingsCheckboxList">
+            <label>
+                <input type="checkbox" value="JPY" checked>
+                JPY
+            </label>
+            <label>
+                <input type="checkbox" value="USD" checked>
+                USD
+            </label>
+            <label>
+                <input type="checkbox" value="EUR">
+                EUR
+            </label>
+            <label>
+                <input type="checkbox" value="KRW" checked>
+                KRW
+            </label>
+            <label>
+                <input type="checkbox" value="KHR" checked>
+                KHR
+            </label>
+            <label>
+                <input type="checkbox" value="DJF" checked>
+                DJF
+            </label>
+        </div>
+    </div>
+
+
+    <div class="settingsCard">
+        <h3>Categories</h3>
+        <div id="categorySettingsList"></div>
+        <div class="addCategoryRow">
+            <input
+                id="newCategoryName"
+                type="text"
+                placeholder="New category">
+            <button
+                type="button"
+                class="smallSettingsButton"
+                onclick="addCategory()">
+                Add
+            </button>
+        </div>
+    </div>
+
+    <button
+        type="button"
+        class="settingsSaveButton"
+        onclick="saveSettings()">
+        Save Settings
+    </button>
+
+    <button
+        type="button"
+        class="settingsExportButton"
+        onclick="exportExcel()">
+        Export Excel
+    </button>
+
+</div>
     
     
     
      <script>
+        const defaultSettings = {
+
+    baseCurrency: "JPY",
+
+    currencies: [
+        "JPY",
+        "USD",
+        "KRW",
+        "KHR",
+        "DJF"
+    ],
+
+    categories: [
+        "Rent or Hotel",
+        "Food",
+        "Houseware",
+        "Transport",
+        "Utility",
+        "Communication",
+        "Clothes",
+        "Cosmetic",
+        "Hobbies",
+        "Entertainment",
+        "Insurance"
+    ]
+};
+
+        function getAppSettings(){
+
+    const savedSettings =
+        localStorage.getItem("appSettings");
+
+    if(!savedSettings){
+
+        localStorage.setItem(
+            "appSettings",
+            JSON.stringify(defaultSettings)
+        );
+
+        return {
+            ...defaultSettings,
+            currencies: [...defaultSettings.currencies],
+            categories: [...defaultSettings.categories]
+        };
+    }
+
+    return JSON.parse(savedSettings);
+}
+
         let editIndex = -1;
         let currentCalendarDate = new Date();
         let categoryChart = null;
-        window.onload = async function(){loadFromLocalStorage(); buildCalendar(); buildHistory(); buildSummary(); document.getElementById("expenseDate").value = new Date().toISOString().split("T")[0];};
+        window.onload = async function(){loadFromLocalStorage(); buildCalendar(); buildHistory(); buildSummary(); updateInputOptions(); document.getElementById("expenseDate").value = new Date().toISOString().split("T")[0];};
         async function saveExpense(){
             //const now = new Date();
             //const dateText = now.getFullYear() + "/" + String(now.getMonth() + 1).padStart(2, "0") + "/" + String(now.getDate()).padStart(2, "0") + " " + String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0");
@@ -988,6 +1237,277 @@ finally{
     buildCalendar();
     buildSummary();
     buildHistory();
+}
+
+function buildSettings(){
+
+    const settings =
+        getAppSettings();
+
+    document.getElementById("baseCurrency").value =
+        settings.baseCurrency;
+
+
+    document
+        .querySelectorAll(
+            '#currencySettings input[type="checkbox"]'
+        )
+        .forEach(checkbox => {
+
+            checkbox.checked =
+                settings.currencies.includes(
+                    checkbox.value
+                );
+        });
+
+
+    const categoryList =
+        document.getElementById(
+            "categorySettingsList"
+        );
+
+    categoryList.innerHTML = "";
+
+
+    settings.categories.forEach(category => {
+
+        const color =
+            getCategoryColor(category);
+
+        categoryList.innerHTML += `
+            <div class="categorySettingRow">
+
+                <div class="categorySettingName">
+
+                    <span
+                        class="categorySettingColor"
+                        style="
+                            background-color:${color};
+                        "
+                    ></span>
+
+                    <span>${category}</span>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="categoryDeleteButton"
+                    onclick="deleteCategory('${category}')"
+                >
+                    Delete
+                </button>
+
+            </div>
+        `;
+    });
+}
+
+function addCategory(){
+
+    const input =
+        document.getElementById(
+            "newCategoryName"
+        );
+
+    const categoryName =
+        input.value.trim();
+
+    if(categoryName === ""){
+
+        alert(
+            "Please enter a category name."
+        );
+
+        input.focus();
+
+        return;
+    }
+
+
+    const settings =
+        getAppSettings();
+
+
+    if(
+        settings.categories.includes(
+            categoryName
+        )
+    ){
+
+        alert(
+            "This category already exists."
+        );
+
+        return;
+    }
+
+
+    settings.categories.push(
+        categoryName
+    );
+
+
+    localStorage.setItem(
+        "appSettings",
+        JSON.stringify(settings)
+    );
+
+
+    input.value = "";
+
+    buildSettings();
+}
+
+function deleteCategory(categoryName){
+
+    const confirmed =
+        confirm(
+            `Delete "${categoryName}"?`
+        );
+
+    if(!confirmed){
+        return;
+    }
+
+
+    const settings =
+        getAppSettings();
+
+
+    settings.categories =
+        settings.categories.filter(
+            category =>
+                category !== categoryName
+        );
+
+
+    localStorage.setItem(
+        "appSettings",
+        JSON.stringify(settings)
+    );
+
+
+    buildSettings();
+}
+
+function saveSettings(){
+
+    const baseCurrency =
+        document.getElementById(
+            "baseCurrency"
+        ).value;
+
+
+    const selectedCurrencies =
+        Array.from(
+            document.querySelectorAll(
+                '#currencySettings input[type="checkbox"]:checked'
+            )
+        )
+        .map(checkbox => checkbox.value);
+
+
+    if(
+        !selectedCurrencies.includes(
+            baseCurrency
+        )
+    ){
+
+        selectedCurrencies.unshift(
+            baseCurrency
+        );
+    }
+
+
+    const currentSettings =
+        getAppSettings();
+
+
+    const newSettings = {
+
+        baseCurrency:
+            baseCurrency,
+
+        currencies:
+            selectedCurrencies,
+
+        categories:
+            currentSettings.categories
+    };
+
+
+    localStorage.setItem(
+        "appSettings",
+        JSON.stringify(newSettings)
+    );
+
+
+    updateInputOptions();
+
+    alert(
+        "Settings have been saved."
+    );
+}
+
+function updateInputOptions(){
+
+    const settings =
+        getAppSettings();
+
+    const currencySelect =
+        document.getElementById("currency");
+
+    const categorySelect =
+        document.getElementById("category");
+
+
+    // HTML要素が見つからない場合は処理を中止
+    if(!currencySelect || !categorySelect){
+
+        console.error(
+            "Currency or category select was not found."
+        );
+
+        return;
+    }
+
+
+    // 使用通貨の選択肢を更新
+    currencySelect.innerHTML = "";
+
+    settings.currencies.forEach(currency => {
+
+        currencySelect.innerHTML += `
+            <option value="${currency}">
+                ${currency}
+            </option>
+        `;
+    });
+
+
+    // 基本通貨を初期選択
+    if(
+        settings.currencies.includes(
+            settings.baseCurrency
+        )
+    ){
+        currencySelect.value =
+            settings.baseCurrency;
+    }
+
+
+    // カテゴリの選択肢を更新
+    categorySelect.innerHTML = "";
+
+    settings.categories.forEach(category => {
+
+        categorySelect.innerHTML += `
+            <option value="${category}">
+                ${category}
+            </option>
+        `;
+    });
 }
 
 function exportCSV(){
