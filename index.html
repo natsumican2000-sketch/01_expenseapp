@@ -486,13 +486,13 @@ finally{
             document.getElementById("calendarPage").style.display="none";
             document.getElementById("summaryPage").style.display="none";
             document.getElementById("historyPage").style.display="none";
-            document.getElementById("settingsPage").style.display="none";
+            //document.getElementById("settingsPage").style.display="none";
         
             document.getElementById("inputTab").classList.add("activeTab");
             document.getElementById("calendarTab").classList.remove("activeTab");
             document.getElementById("summaryTab").classList.remove("activeTab");
             document.getElementById("historyTab").classList.remove("activeTab");
-            document.getElementById("settingsTab").classList.remove("activeTab");
+            //document.getElementById("settingsTab").classList.remove("activeTab");
         
             setActiveNav("inputNav");}
         
@@ -501,13 +501,13 @@ finally{
             document.getElementById("calendarPage").style.display="block";
             document.getElementById("summaryPage").style.display="none";
             document.getElementById("historyPage").style.display="none";
-            document.getElementById("settingsPage").style.display="none";
+            //document.getElementById("settingsPage").style.display="none";
         
             document.getElementById("inputTab").classList.remove("activeTab");
             document.getElementById("calendarTab").classList.add("activeTab");
             document.getElementById("summaryTab").classList.remove("activeTab");
             document.getElementById("historyTab").classList.remove("activeTab");
-            document.getElementById("settingsTab").classList.remove("activeTab");
+            //document.getElementById("settingsTab").classList.remove("activeTab");
         
             setActiveNav("calendarNav");}
 
@@ -516,13 +516,13 @@ finally{
             document.getElementById("calendarPage").style.display="none";
             document.getElementById("summaryPage").style.display="block";
             document.getElementById("historyPage").style.display="none";
-            document.getElementById("settingsPage").style.display="none";
+            //document.getElementById("settingsPage").style.display="none";
                 
             document.getElementById("inputTab").classList.remove("activeTab");
             document.getElementById("calendarTab").classList.remove("activeTab");
             document.getElementById("summaryTab").classList.add("activeTab");
             document.getElementById("historyTab").classList.remove("activeTab");
-            document.getElementById("settingsTab").classList.remove("activeTab");
+            //document.getElementById("settingsTab").classList.remove("activeTab");
             buildSummary();
         
             setActiveNav("summaryNav");}
@@ -532,13 +532,13 @@ finally{
             document.getElementById("calendarPage").style.display="none";
             document.getElementById("summaryPage").style.display="none";
             document.getElementById("historyPage").style.display="block";
-            document.getElementById("settingsPage").style.display="none";
+            //document.getElementById("settingsPage").style.display="none";
                 
             document.getElementById("inputTab").classList.remove("activeTab");
             document.getElementById("calendarTab").classList.remove("activeTab");
             document.getElementById("summaryTab").classList.remove("activeTab");
             document.getElementById("historyTab").classList.add("activeTab");
-            document.getElementById("settingsTab").classList.remove("activeTab");
+            //document.getElementById("settingsTab").classList.remove("activeTab");
 
             setActiveNav("historyNav");
         }
@@ -548,15 +548,15 @@ finally{
             document.getElementById("calendarPage").style.display="none";
             document.getElementById("summaryPage").style.display="none";
             document.getElementById("historyPage").style.display="none";
-            document.getElementById("settingsPage").style.display="block";
+            //document.getElementById("settingsPage").style.display="block";
                 
             document.getElementById("inputTab").classList.remove("activeTab");
             document.getElementById("calendarTab").classList.remove("activeTab");
             document.getElementById("summaryTab").classList.remove("activeTab");
             document.getElementById("historyTab").classList.remove("activeTab");
-            document.getElementById("settingsTab").classList.add("activeTab");
+            //document.getElementById("settingsTab").classList.add("activeTab");
 
-            setActiveNav("historyNav");
+            setActiveNav("settingsNav");
         }
 
         function changeMonth(change){currentCalendarDate.setMonth(currentCalendarDate.getMonth()+change); buildCalendar(); buildSummary();}
